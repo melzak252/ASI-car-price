@@ -1,5 +1,5 @@
 data:
-  raw_path: Car_sale_ads.csv
+  raw_path: data/raw/Car_sale_ads.csv
   processed_path: data/processed/car_sale_ads_processed.parquet
 
 model:
