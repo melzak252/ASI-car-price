@@ -21,10 +21,15 @@ data/processed/*
 data/05_model_input/*
 models/*
 reports/figures/*
-reports/metrics.json
+reports/*.json
+reports/*.csv
 mlruns/
+mlartifacts/
+mlflow.db
+AutogluonModels/
 
 # Kedro
+.viz/
 conf/local/**
 !conf/local/.gitkeep
 .telemetry

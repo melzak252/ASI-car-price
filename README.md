@@ -44,6 +44,18 @@ Pipeline `__default__` = `data_processing` + `data_science`:
 4. **train** - model LightGBM.
 5. **evaluate** - metryki (skala log i PLN) do `reports/metrics.json`.
 
+### Potok `model_optimization` (udoskonalanie modelu, punkt 4)
+
+Uruchamiany osobno (kilka minut), nie wchodzi w `__default__`:
+
+1. **feature_selection** - wybór najważniejszych cech wg ważności z LightGBM.
+2. **tune_hyperparameters** - strojenie LightGBM przez Optunę (sampler TPE = optymalizacja bayesowska).
+3. **compare_models** - trening i porównanie kilku modeli (Ridge, HistGBR, LightGBM domyślny/strojony).
+4. **automl** - AutoGluon (`TabularPredictor`) z leaderboardem modeli.
+5. **select_best** - tabela porównawcza (`reports/model_comparison.csv`) i zapis wdrażalnego modelu (`models/best_model.pkl`).
+
+Każdy oceniany model jest logowany jako przebieg **MLflow** (lokalne `./mlruns`).
+
 ## Uruchomienie
 
 > **Wymagany Python 3.10–3.13.**
@@ -63,10 +75,14 @@ kedro run                          # pełny przepływ
 kedro run --pipeline data_processing
 kedro run --pipeline data_science
 
-# 4. Wizualizacja grafu pipeline'u
+# 4. Udoskonalanie modelu (Optuna + AutoGluon)
+kedro run --pipeline model_optimization
+mlflow ui --backend-store-uri sqlite:///mlflow.db   # podgląd eksperymentów na http://127.0.0.1:5000
+
+# 5. Wizualizacja grafu pipeline'u
 kedro viz
 
-# 5. Testy
+# 6. Testy
 pytest
 ```
 

@@ -39,3 +39,37 @@ model:
 metrics:
   type: json.JSONDataset
   filepath: reports/metrics.json
+
+# --- Potok model_optimization (punkt 4) ---
+
+X_train_sel:
+  type: pickle.PickleDataset
+  filepath: data/05_model_input/X_train_sel.pkl
+
+X_test_sel:
+  type: pickle.PickleDataset
+  filepath: data/05_model_input/X_test_sel.pkl
+
+selected_features:
+  type: json.JSONDataset
+  filepath: reports/selected_features.json
+
+best_params:
+  type: json.JSONDataset
+  filepath: reports/best_params.json
+
+automl_metrics:
+  type: json.JSONDataset
+  filepath: reports/automl_metrics.json
+
+automl_leaderboard:
+  type: pandas.CSVDataset
+  filepath: reports/automl_leaderboard.csv
+
+model_comparison:
+  type: pandas.CSVDataset
+  filepath: reports/model_comparison.csv
+
+best_model:
+  type: pickle.PickleDataset
+  filepath: models/best_model.pkl

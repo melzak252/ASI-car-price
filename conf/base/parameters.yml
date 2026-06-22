@@ -50,3 +50,39 @@ model_params:
   objective: regression
   n_jobs: -1
   verbosity: -1
+
+# --- Potok model_optimization (punkt 4) ---
+
+mlflow:
+  experiment_name: car_price
+  # mlflow - używamy lokalnej bazy sqlite.
+  tracking_uri: sqlite:///mlflow.db
+
+feature_selection:
+  top_k: 50
+
+optuna:
+  n_trials: 30
+  cv_folds: 3
+
+candidates:
+  - ridge
+  - hist_gbr
+  - lgbm_default
+  - lgbm_tuned
+
+automl:
+  label: Log_Price
+  time_limit: 300
+  presets: medium_quality
+  eval_metric: root_mean_squared_error
+  exclude_columns:
+    - Index
+    - Price
+    - Currency
+    - Brand_Model
+    - feat_list
+    - Features
+    - Offer_location
+    - Offer_publication_date
+    - First_registration_date
