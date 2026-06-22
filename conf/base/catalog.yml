@@ -1,0 +1,41 @@
+# Data Catalog - definicje zbiorów danych pipeline'u.
+
+raw_car_ads:
+  type: pandas.CSVDataset
+  filepath: data/raw/Car_sale_ads.csv
+
+preprocessed_car_ads:
+  type: pandas.ParquetDataset
+  filepath: data/processed/car_sale_ads_processed.parquet
+
+train_df:
+  type: pandas.ParquetDataset
+  filepath: data/processed/train.parquet
+
+test_df:
+  type: pandas.ParquetDataset
+  filepath: data/processed/test.parquet
+
+X_train:
+  type: pickle.PickleDataset
+  filepath: data/05_model_input/X_train.pkl
+
+X_test:
+  type: pickle.PickleDataset
+  filepath: data/05_model_input/X_test.pkl
+
+y_train:
+  type: pickle.PickleDataset
+  filepath: data/05_model_input/y_train.pkl
+
+y_test:
+  type: pickle.PickleDataset
+  filepath: data/05_model_input/y_test.pkl
+
+model:
+  type: pickle.PickleDataset
+  filepath: models/lgbm_model.pkl
+
+metrics:
+  type: json.JSONDataset
+  filepath: reports/metrics.json

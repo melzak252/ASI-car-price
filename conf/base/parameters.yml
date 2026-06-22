@@ -1,0 +1,52 @@
+# Parametry pipeline'u - przeniesione z notebooka 02_baseline_model.ipynb.
+
+target: Log_Price
+random_state: 42
+test_size: 0.2
+
+# Kolumny wykorzystywane w inżynierii cech.
+categorical_columns:
+  - Condition
+  - Fuel_type
+  - Drive
+  - Type
+  - Doors_number
+
+numeric_columns:
+  - Production_year
+  - Mileage_km
+  - Power_HP
+  - Displacement_cm3
+
+# Kolumny usuwane przed budową macierzy cech.
+drop_columns:
+  - Index
+  - Vehicle_brand
+  - Vehicle_model
+  - Vehicle_version
+  - Vehicle_generation
+  - Brand_Model
+  - Currency
+  - Price
+  - CO2_emissions
+  - Transmission
+  - Colour
+  - Origin_country
+  - First_owner
+  - First_registration_date
+  - Offer_publication_date
+  - Offer_location
+  - Features
+  - feat_list
+
+# Hiperparametry modelu LightGBM.
+model_params:
+  n_estimators: 500
+  learning_rate: 0.05
+  num_leaves: 64
+  max_depth: -1
+  subsample: 0.9
+  colsample_bytree: 0.9
+  objective: regression
+  n_jobs: -1
+  verbosity: -1

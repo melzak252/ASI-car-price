@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "car_price"
+version = "0.1.0"
+description = "ASI Car Price - pipeline ML predykcji ceny samochodu (Kedro)"
+requires-python = ">=3.11"
+dynamic = ["dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.kedro]
+package_name = "car_price"
+project_name = "ASI Car Price"
+kedro_init_version = "1.4.0"
+tools = "['None']"
+example_pipeline = "False"
+
+[tool.kedro_telemetry]
+project_id = "asi-car-price"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

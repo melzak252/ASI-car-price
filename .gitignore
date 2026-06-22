@@ -18,9 +18,18 @@ env/
 *.joblib
 data/raw/*
 data/processed/*
+data/05_model_input/*
 models/*
 reports/figures/*
+reports/metrics.json
 mlruns/
+
+# Kedro
+conf/local/**
+!conf/local/.gitkeep
+.telemetry
+logs/
+src/*.egg-info/
 
 # Keep directory placeholders
 !data/raw/.gitkeep
