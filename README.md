@@ -2,14 +2,66 @@
 
 Predykcja ceny samochodu na podstawie ogłoszeń. Target: Log_Price.
 
-## Status
+## Architektura
 
-- [x] Punkt 1 - organizacja
-- [x] Punkt 2 - baseline notebook
-- [x] Punkt 3 - Kedro pipeline
-- [x] Punkt 4 - Optuna, AutoGluon, MLflow, selekcja cech
-- [x] Punkt 5 - FastAPI, monitoring, Docker
-- [x] Punkt 6 - DVC, CI/CD (GitHub Actions)
+```mermaid
+flowchart LR
+    CSV[Car_sale_ads.csv] --> DP[data_processing<br/>Kedro]
+    DP --> PT[train.parquet<br/>test.parquet]
+    PT --> DS[data_science<br/>Kedro]
+    DS --> LGBM[LightGBM]
+    DS --> METRICS[metrics.json]
+    PT --> MO[model_optimization<br/>Kedro]
+    MO --> FS[Feature Selection]
+    MO --> OPT[Optuna tuning]
+    MO --> AG[AutoGluon]
+    MO --> CMP[Model Comparison]
+    MO --> BEST[best_model.pkl]
+    BEST --> PP[fit_preprocessor.py]
+    PP --> PREP[preprocessor.pkl]
+    PREP --> API[FastAPI /predict]
+    CSV --> DVC1[dvc: data/raw]
+    MODELS[models/*] --> DVC2[dvc: models/]
+    API --> LOG[predictions_log.csv]
+    API --> DRIFT[z-score drift]
+```
+
+## Struktura
+
+```
+asi-car-price/
+├── api/                    # FastAPI
+│   ├── main.py             # /health, /predict, /drift, /predictions
+│   ├── preprocessing.py    # InferencePreprocessor
+│   ├── schemas.py          # Pydantic modele
+│   └── monitoring.py       # logowanie + drift
+├── conf/base/              # Kedro config
+│   ├── catalog.yml         # dataset registry
+│   └── parameters.yml      # parametry pipeline'u
+├── data/
+│   ├── raw/                # oryginalny CSV (DVC)
+│   ├── processed/          # train/test parquet (DVC)
+│   └── 05_model_input/     # X/y pickle (DVC)
+├── models/                 # .pkl, .joblib (DVC)
+├── scripts/
+│   └── fit_preprocessor.py # dopasowanie preprocessora
+├── src/
+│   ├── car_price/          # Kedro pipelines
+│   │   └── pipelines/
+│   │       ├── data_processing/   # preprocessing
+│   │       ├── data_science/      # trenowanie
+│   │       └── model_optimization/# Optuna, AutoGluon
+│   ├── features/           # feature engineering
+│   ├── models/             # tuning, automl
+│   ├── preprocessing/      # czyszczenie
+│   ├── evaluation/         # metryki
+│   └── tracking/           # MLflow utils
+├── tests/
+├── reports/                # metrics, params, comparison
+├── Dockerfile
+├── .github/workflows/ci.yml
+└── wymagania.pdf
+```
 
 ## Szybki start
 
@@ -22,11 +74,29 @@ pip install -e .
 
 Dane: `data/raw/Car_sale_ads.csv`
 
+### Pipeline bazowy
 ```bash
-kedro run                          # pipeline bazowy
-kedro run --pipeline model_optimization  # punkt 4
-python scripts/fit_preprocessor.py       # preprocessor dla API
-uvicorn api.main:app --reload            # API na http://localhost:8000
+kedro run                          # data_processing + data_science
+```
+
+`data_processing`: czyszczenie (outliers, EUR, doors), dodanie log_price, Brand_Model, lista cech, podział train/test, target encoding.  
+`data_science`: trenowanie LightGBM, ewaluacja (R²_log, MAE_PLN, RMSE_PLN), MLflow log.
+
+### Pipeline optymalizacji
+```bash
+kedro run --pipeline model_optimization  # ~8 minut
+```
+
+1. AutoGluon (ensemble modeli)
+2. Feature selection (LightGBM importance, top 50)
+3. Optuna hyperparameter tuning (30 triali, 3-fold CV)
+4. Porównanie Ridge vs HistGBR vs LightGBM default vs LightGBM tuned
+5. Wybór najlepszego modelu → `models/best_model.pkl`
+
+### API
+```bash
+python scripts/fit_preprocessor.py       # dopasowanie preprocessora
+uvicorn api.main:app --reload            # http://localhost:8000
 ```
 
 ## API
