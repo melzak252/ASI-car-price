@@ -4,6 +4,26 @@ Autorzy: s27664, s28166
 ## Cel projektu
 Predykcja ceny samochodu na podstawie ogłoszeń. Target: Log_Price.
 
+## Wymagania
+
+### Narzędzia
+- **Docker** + **Docker Compose** — do uruchomienia kontenera (zalecane)
+- Python 3.11 — do pracy lokalnej bez Dockera
+
+### Pliki — gdzie wrzucić
+
+Aby `docker-compose up --build` zadziałało, te pliki muszą być na swoim miejscu:
+
+| Plik | Ścieżka | Wymagany | Opis |
+|------|---------|----------|------|
+| `Car_sale_ads.csv` | `data/raw/Car_sale_ads.csv` | ✅ tak | Surowe ogłoszenia (165 MB) |
+| `best_model.pkl` | `models/best_model.pkl` | ✅ tak | Wytrenowany model LightGBM |
+| `preprocessor.pkl` | `models/preprocessor.pkl` | ✅ tak | Preprocessor dopasowany do danych |
+| `selected_feature_columns.joblib` | `models/selected_feature_columns.joblib` | ❌ opcjonalny | Lista wybranych cech po feature selection |
+| `lgbm_model.pkl` | `models/lgbm_model.pkl` | ❌ opcjonalny | Model z domyślnego pipeline'u Kedro |
+
+> ⚠️ **Uwaga**: `data/raw/`, `data/processed/`, `data/05_model_input/` i `models/` są montowane jako **wolumeny** z hosta do kontenera. Nie musisz rebuildować obrazu przy zmianie danych czy modeli.
+
 ## Architektura
 
 ```mermaid
@@ -127,6 +147,12 @@ docker-compose up --build
 ```
 
 Wolumeny montują `data/`, `models/` i `reports/` z hosta, więc obraz pozostaje lekki.
+
+> **Przygotowanie plików**: Przed pierwszym uruchomieniem upewnij się, że masz dane i modele na swoich ścieżkach (patrz [Wymagania](#wymagania)). Możesz je pobrać przez DVC:
+> ```bash
+> dvc pull
+> ```
+> lub wytrenować od zera poleceniami z sekcji [Retrenowanie](#retrenowanie-w-kontenerze).
 
 ### Retrenowanie w kontenerze
 
