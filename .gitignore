@@ -23,6 +23,13 @@ models/*
 reports/figures/*
 reports/*.json
 reports/*.csv
+!reports/pipeline_metrics.json
+!reports/metrics.json
+!reports/selected_features.json
+!reports/best_params.json
+!reports/automl_metrics.json
+!reports/automl_leaderboard.csv
+!reports/model_comparison.csv
 mlruns/
 mlartifacts/
 mlflow.db

@@ -28,3 +28,4 @@ project_id = "asi-car-price"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-ra"
+pythonpath = ["src"]

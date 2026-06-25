@@ -1,0 +1,17 @@
+{
+  "created_at": "2026-06-02T17:34:33",
+  "rows_raw": 208304,
+  "rows_after_cleaning": 206825,
+  "train_rows": 165460,
+  "test_rows": 41365,
+  "features_count": 109,
+  "model_path": "D:\\Melzak\\dev\\ASI-car-price\\models\\lightgbm_pipeline.joblib",
+  "processed_path": "D:\\Melzak\\dev\\ASI-car-price\\data\\processed\\car_sale_ads_processed.parquet",
+  "metrics": {
+    "mae_log": 0.1490491518683779,
+    "rmse_log": 0.22653431523728018,
+    "r2_log": 0.9510036418652857,
+    "mae_pln": 7931.634523752187,
+    "rmse_pln": 17797.895094152867
+  }
+}

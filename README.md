@@ -10,7 +10,9 @@ projektu zaliczeniowego.
 - **Punkt 2 - baseline:** [notebooks/02_baseline_model.ipynb](notebooks/02_baseline_model.ipynb)
   (EDA, preprocessing, trening, ewaluacja).
 - **Punkt 3 - struktura i pipeline:** moduły w `src/` + pipeline ML w **Kedro**.
-- Punkty 4–8: w trakcie / do realizacji.
+- **Punkt 4 - udoskonalanie modelu:** pipeline `model_optimization` z MLflow,
+  Optuną, AutoGluon, selekcją cech i porównaniem modeli.
+- Punkty 5–8: w trakcie / do realizacji.
 
 ## Struktura
 
@@ -55,6 +57,26 @@ Uruchamiany osobno (kilka minut), nie wchodzi w `__default__`:
 5. **select_best** - tabela porównawcza (`reports/model_comparison.csv`) i zapis wdrażalnego modelu (`models/best_model.pkl`).
 
 Każdy oceniany model jest logowany jako przebieg **MLflow** (lokalne `./mlruns`).
+
+Wyniki ostatniego uruchomienia punktu 4:
+
+| Model | R²_log | MAE_PLN | RMSE_PLN |
+|-------|-------:|--------:|---------:|
+| AutoGluon / WeightedEnsemble_L2 | 0.956 | 6 940 | 15 791 |
+| LightGBM strojony Optuną | 0.953 | 7 342 | 16 698 |
+| LightGBM domyślny | 0.950 | 7 991 | 17 886 |
+| HistGradientBoostingRegressor | 0.941 | 9 351 | 20 635 |
+| Ridge | 0.811 | 16 792 | 34 238 |
+
+Artefakty punktu 4:
+
+- `reports/selected_features.json` - wybrane najważniejsze cechy,
+- `reports/best_params.json` - najlepsze parametry Optuny,
+- `reports/automl_metrics.json` - metryki najlepszego modelu AutoGluon,
+- `reports/automl_leaderboard.csv` - ranking modeli AutoGluon,
+- `reports/model_comparison.csv` - porównanie wszystkich kandydatów,
+- `models/best_model.pkl` - wdrażalny model LightGBM po strojeniu,
+- `mlflow.db`, `mlruns/`, `mlartifacts/` - lokalne śledzenie eksperymentów MLflow.
 
 ## Uruchomienie
 
