@@ -1,0 +1,5 @@
+outs:
+- md5: da4740353d5481f0d6300537c40ea1d1
+  size: 165670499
+  hash: md5
+  path: Car_sale_ads.csv

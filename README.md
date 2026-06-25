@@ -9,6 +9,7 @@ Predykcja ceny samochodu na podstawie ogłoszeń. Target: Log_Price.
 - [x] Punkt 3 - Kedro pipeline
 - [x] Punkt 4 - Optuna, AutoGluon, MLflow, selekcja cech
 - [x] Punkt 5 - FastAPI, monitoring, Docker
+- [x] Punkt 6 - DVC, CI/CD (GitHub Actions)
 
 ## Szybki start
 
@@ -49,6 +50,23 @@ curl -X POST http://localhost:8000/predict -H "Content-Type: application/json" -
 docker build -t asi-car-price-api .
 docker run -p 8000:8000 asi-car-price-api
 ```
+
+## DVC
+
+Wersjonowanie danych i modeli:
+
+```bash
+dvc pull                    # pobranie danych
+dvc checkout                # przywrócenie wersji
+dvc push                    # wysłanie do storage
+dvc status                  # sprawdzenie zmian
+```
+
+DVC remote (lokalny): `/tmp/dvc-storage`. Dla produkcji zmień na S3/GDrive/SSH.
+
+## CI/CD
+
+GitHub Actions (`.github/workflows/ci.yml`) uruchamia testy przy każdym pushu/PR na main.
 
 ## Wyniki
 

@@ -63,4 +63,8 @@ reports/predictions_log.csv
 models/preprocessor.pkl
 models/selected_feature_columns.joblib
 
+# DVC tracked data (git-ignore the actual files, track .dvc files)
+!*.dvc
 
+
+/models
