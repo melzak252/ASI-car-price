@@ -54,3 +54,13 @@ src/*.egg-info/
 Thumbs.db
 .vscode/
 .idea/
+
+# Environment
+.env
+
+# API logs
+reports/predictions_log.csv
+models/preprocessor.pkl
+models/selected_feature_columns.joblib
+
+
