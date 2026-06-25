@@ -1,5 +1,7 @@
 # ASI Car Price
+Autorzy: s27664, s28166
 
+## Cel projektu
 Predykcja ceny samochodu na podstawie ogłoszeń. Target: Log_Price.
 
 ## Architektura
