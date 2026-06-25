@@ -16,13 +16,13 @@ Aby `docker-compose up --build` zadziałało, te pliki muszą być na swoim miej
 
 | Plik | Ścieżka | Wymagany | Opis |
 |------|---------|----------|------|
-| `Car_sale_ads.csv` | `data/raw/Car_sale_ads.csv` | ✅ tak | Surowe ogłoszenia (165 MB) |
-| `best_model.pkl` | `models/best_model.pkl` | ✅ tak | Wytrenowany model LightGBM |
-| `preprocessor.pkl` | `models/preprocessor.pkl` | ✅ tak | Preprocessor dopasowany do danych |
-| `selected_feature_columns.joblib` | `models/selected_feature_columns.joblib` | ❌ opcjonalny | Lista wybranych cech po feature selection |
-| `lgbm_model.pkl` | `models/lgbm_model.pkl` | ❌ opcjonalny | Model z domyślnego pipeline'u Kedro |
+| `Car_sale_ads.csv` | `data/raw/Car_sale_ads.csv` | tak | Surowe ogłoszenia (165 MB) |
+| `best_model.pkl` | `models/best_model.pkl` | tak | Wytrenowany model LightGBM |
+| `preprocessor.pkl` | `models/preprocessor.pkl` | tak | Preprocessor dopasowany do danych |
+| `selected_feature_columns.joblib` | `models/selected_feature_columns.joblib` | opcjonalny | Lista wybranych cech po feature selection |
+| `lgbm_model.pkl` | `models/lgbm_model.pkl` | opcjonalny | Model z domyślnego pipeline'u Kedro |
 
-> ⚠️ **Uwaga**: `data/raw/`, `data/processed/`, `data/05_model_input/` i `models/` są montowane jako **wolumeny** z hosta do kontenera. Nie musisz rebuildować obrazu przy zmianie danych czy modeli.
+> **Uwaga**: `data/raw/`, `data/processed/`, `data/05_model_input/` i `models/` są montowane jako **wolumeny** z hosta do kontenera. Nie musisz rebuildować obrazu przy zmianie danych czy modeli.
 
 ## Architektura
 
