@@ -118,10 +118,31 @@ curl -X POST http://localhost:8000/predict -H "Content-Type: application/json" -
 
 ## Docker
 
+### Szybki start (docker-compose — zalecane)
+
+Uruchamia API natychmiast, używając gotowych modeli z hosta:
+
+```bash
+docker-compose up --build
+```
+
+Wolumeny montują `data/`, `models/` i `reports/` z hosta, więc obraz pozostaje lekki.
+
+### Retrenowanie w kontenerze
+
+```bash
+docker-compose exec api kedro run
+docker-compose exec api python scripts/fit_preprocessor.py
+```
+
+### Standalone (pełny pipeline przy starcie)
+
 ```bash
 docker build -t asi-car-price-api .
 docker run -p 8000:8000 asi-car-price-api
 ```
+
+Uwaga: `docker run` uruchamia `kedro run` + `fit_preprocessor.py` przed API — może to potrwać kilkanaście minut.
 
 ## DVC
 
